@@ -1,53 +1,25 @@
 "use client";
 
-import { useState } from "react";
+import { useNotes } from "../hooks/useNote";
 
-type Note = {
-  id: string;
-  content: string;
-};
+
 
 export default function Home() {
-  const [notes, setNotes] = useState<Note[]>([]);
-  const [input, setInput] = useState("");
-  const [editingId, setEditingId] = useState<string | null>(null);
-
-  function handleAddOrUpdate() {
-    if (!input.trim()) return;
-
-    if (editingId) {
-      setNotes((prev) =>
-        prev.map((note) =>
-          note.id === editingId ? { ...note, content: input } : note
-        )
-      );
-      setEditingId(null);
-    } else {
-      const newNote = {
-        id: crypto.randomUUID(),
-        content: input,
-      };
-      setNotes((prev) => [newNote, ...prev]);
-    }
-
-    setInput("");
-  }
-
-  function handleEdit(note: Note) {
-    setInput(note.content);
-    setEditingId(note.id);
-  }
-
-  function handleDelete(id: string) {
-    setNotes((prev) => prev.filter((note) => note.id !== id));
-  }
+  const {
+    notes,
+    input,
+    editingId,
+    setInput,
+    handleAddOrUpdate,
+    handleEdit,
+    handleDelete,
+  } = useNotes();
 
   return (
     <main className="min-h-screen bg-gray-100 p-6 flex flex-col items-center">
       
       <h1 className="text-3xl font-bold mb-6 text-black">Offline Notes</h1>
 
-      {/* Input Section */}
       <div className="w-full max-w-xl flex gap-2 mb-6">
         <input
           value={input}
@@ -64,7 +36,6 @@ export default function Home() {
         </button>
       </div>
 
-      {/* Notes Grid */}
       <div className="grid text-black grid-cols-1 sm:grid-cols-2 gap-4 w-full max-w-3xl">
         {notes.map((note) => (
           <div
@@ -91,7 +62,6 @@ export default function Home() {
           </div>
         ))}
       </div>
-
     </main>
   );
 }
