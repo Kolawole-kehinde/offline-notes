@@ -1,5 +1,6 @@
 import { openDB } from "idb";
 
+
 const DB_NAME = "notes-db";
 const STORE_NAME = "notes";
 

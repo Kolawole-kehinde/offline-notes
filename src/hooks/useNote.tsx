@@ -28,9 +28,7 @@ export function useNotes() {
 
   if (editingId) {
     const updated = { id: editingId, content: input };
-
     await updateNote(updated);
-
     setNotes((prev) =>
       prev.map((note) =>
         note.id === editingId ? updated : note
@@ -43,14 +41,12 @@ export function useNotes() {
       id: crypto.randomUUID(),
       content: input,
     };
-
     await addNote(newNote);
-
     setNotes((prev) => [newNote, ...prev]);
   }
-
   setInput("");
 }
+
 
   function handleEdit(note: Note) {
     setInput(note.content);
